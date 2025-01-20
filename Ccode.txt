@@ -1,0 +1,308 @@
+Paso 1: Carga de datos a MongoDB
+
+Paso 2: Insertar documentos:
+
+use Data_Science_Jobs;
+
+
+db.jobs.insertMany([
+  {
+    work_year: 2023,
+    job_title: "Científico de Datos",
+    job_category: "Análisis de Datos",
+    salary_currency: "USD",
+    salary: 95000,
+    salary_in_usd: 95000,
+    employe_residence: "MX",
+    experience_level: "Senior",
+    employment_type: "Tiempo completo",
+    work_setting: "Remoto",
+    company_location: "US",
+    company_size: "L"
+  },
+  {
+    work_year: 2023,
+    job_title: "Ingeniero de Datos",
+    job_category: "Ingeniería de Datos",
+    salary_currency: "EUR",
+    salary: 85000,
+    salary_in_usd: 92000,
+    employe_residence: "ES",
+    experience_level: "Intermedio",
+    employment_type: "Tiempo completo",
+    work_setting: "Híbrido",
+    company_location: "DE",
+    company_size: "M"
+  },
+  {
+    work_year: 2023,
+    job_title: "Analista de Datos",
+    job_category: "Análisis de Datos",
+    salary_currency: "USD",
+    salary: 70000,
+    salary_in_usd: 70000,
+    employe_residence: "CO",
+    experience_level: "Nivel de entrada",
+    employment_type: "Contrato",
+    work_setting: "Presencial",
+    company_location: "US",
+    company_size: "L"
+  },
+  {
+    work_year: 2023,
+    job_title: "Especialista en Aprendizaje Automático",
+    job_category: "Aprendizaje Automático",
+    salary_currency: "GBP",
+    salary: 100000,
+    salary_in_usd: 120000,
+    employe_residence: "UK",
+    experience_level: "Senior",
+    employment_type: "Tiempo completo",
+    work_setting: "Remoto",
+    company_location: "UK",
+    company_size: "M"
+  },
+  {
+    work_year: 2023,
+    job_title: "Científico de Datos",
+    job_category: "Análisis de Datos",
+    salary_currency: "USD",
+    salary: 80000,
+    salary_in_usd: 80000,
+    employe_residence: "AR",
+    experience_level: "Intermedio",
+    employment_type: "Tiempo completo",
+    work_setting: "Híbrido",
+    company_location: "AR",
+    company_size: "S"
+  },
+  {
+    work_year: 2022,
+    job_title: "Ingeniero de Datos",
+    job_category: "Ingeniería de Datos",
+    salary_currency: "CAD",
+    salary: 95000,
+    salary_in_usd: 75000,
+    employe_residence: "CA",
+    experience_level: "Senior",
+    employment_type: "Contrato",
+    work_setting: "Remoto",
+    company_location: "CA",
+    company_size: "L"
+  },
+  {
+    work_year: 2023,
+    job_title: "Analista de Datos",
+    job_category: "Análisis de Datos",
+    salary_currency: "USD",
+    salary: 60000,
+    salary_in_usd: 60000,
+    employe_residence: "BR",
+    experience_level: "Nivel de entrada",
+    employment_type: "Tiempo parcial",
+    work_setting: "Presencial",
+    company_location: "BR",
+    company_size: "M"
+  },
+  {
+    work_year: 2023,
+    job_title: "Especialista en BI",
+    job_category: "Inteligencia de Negocios",
+    salary_currency: "USD",
+    salary: 75000,
+    salary_in_usd: 75000,
+    employe_residence: "CL",
+    experience_level: "Intermedio",
+    employment_type: "Tiempo completo",
+    work_setting: "Remoto",
+    company_location: "CL",
+    company_size: "S"
+  },
+  {
+    work_year: 2023,
+    job_title: "Científico de Datos",
+    job_category: "Análisis de Datos",
+    salary_currency: "EUR",
+    salary: 87000,
+    salary_in_usd: 93000,
+    employe_residence: "FR",
+    experience_level: "Senior",
+    employment_type: "Tiempo completo",
+    work_setting: "Híbrido",
+    company_location: "FR",
+    company_size: "L"
+  },
+  {
+    work_year: 2022,
+    job_title: "Ingeniero de Datos",
+    job_category: "Ingeniería de Datos",
+    salary_currency: "USD",
+    salary: 90000,
+    salary_in_usd: 90000,
+    employe_residence: "MX",
+    experience_level: "Intermedio",
+    employment_type: "Contrato",
+    work_setting: "Remoto",
+    company_location: "US",
+    company_size: "M"
+  }
+]);
+
+PASO 3:
+Actualización de datos al año 2023.
+
+db.jobs.updateMany(
+  {
+    $or: [
+      {
+        work_year: 2022,
+        job_title: "Ingeniero de Datos",
+        job_category: "Ingeniería de Datos",
+        salary_currency: "CAD",
+        salary: 95000,
+        salary_in_usd: 75000,
+        employe_residence: "CA",
+        experience_level: "Senior",
+        employment_type: "Contrato",
+        work_setting: "Remoto",
+        company_location: "CA",
+        company_size: "L"
+      },
+      {
+        work_year: 2022,
+        job_title: "Ingeniero de Datos",
+        job_category: "Ingeniería de Datos",
+        salary_currency: "USD",
+        salary: 90000,
+        salary_in_usd: 90000,
+        employe_residence: "MX",
+        experience_level: "Intermedio",
+        employment_type: "Contrato",
+        work_setting: "Remoto",
+        company_location: "US",
+        company_size: "M"
+      }
+    ]
+  },
+  {
+    $set: { work_year: 2023 }
+  }
+);
+
+Paso 4: proyecciones:
+
+db.jobs.aggregate([
+  {
+    $match: { job_category: "Data Science" }
+  },
+  {
+    $sort: { salary_in_usd: -1 }
+  },
+  {
+    $project: { job_category: 1, salary_in_usd: 1, _id: 0 }
+  },
+  {
+    $limit: 5
+  }
+]);
+
+
+
+Código utilizado en la función pipeline de agregación.
+
+Paso 5: Filtrado:
+
+[
+  {
+    $group: {
+      _id: "$job_category",
+      avg_salary_in_usd: { $avg: "$salary_in_usd" }
+    }
+  },
+  {
+    $match: {
+      avg_salary_in_usd: { $gt: 100000 }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      job_category: "$_id",
+      avg_salary_in_usd: { $round: ["$avg_salary_in_usd", 2] }
+    }
+  },
+  {
+    $sort: {
+      avg_salary_in_usd: -1
+    }
+  }
+]
+
+6. comparación de años:
+
+[
+  {
+    $group: {
+      _id: "$work_year",
+      average_salary_usd: { $avg: "$salary_in_usd" },
+      total_records: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  },
+  {
+    $project: {
+      year: "$_id",
+      average_salary_usd: { $round: ["$average_salary_usd", 2] },
+      total_records: 1,
+      _id: 0
+    }
+  }
+]
+
+7. comparación de lugar de empleo y tipo de empleo:
+
+[
+  {
+    $group: {
+      _id: { 
+        workSetting: "$work_setting", 
+        companyLocation: "$company_location" 
+      },
+      averageSalary: { $avg: "$salary_in_usd" }
+    }
+  },
+  {
+    $project: {
+      _id: 0, 
+      workSetting: "$_id.workSetting",
+      companyLocation: "$_id.companyLocation",
+      averageSalary: { $round: ["$averageSalary", 2] }
+    }
+  },
+  {
+    $sort: { averageSalary: -1 }
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
